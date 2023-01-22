@@ -1,14 +1,15 @@
 
-import { fetchPosts } from './posts';
+import { triggerPostsFetch } from './posts';
 import { launchServer } from './server';
 
-console.log('sup');
+console.log('Lauching app');
 
 (async () => {
     await launchServer()
-    const posts = await fetchPosts()
-    console.log(posts)
+    try {
+        const result = await triggerPostsFetch()
+        console.log(`We have persisted ${result.length} events`)
+    } catch (err) {
+        console.log(`Error loading data` )
+    }
 })()
-
-
-console.log('wut')

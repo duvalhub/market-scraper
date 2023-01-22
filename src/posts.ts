@@ -1,48 +1,43 @@
 import axios from 'axios';
-import { DataTypes, Sequelize } from 'sequelize';
-import { removeSpecialCharacters, rules } from './constants';
-import { Message, PostResponse } from './model';
-const url = "https://api.stocktwits.com/api/2/streams/user/alejos11.json?filter=all&limit=21"
-export const sequelize = new Sequelize('sqlite::memory:');
+import { rules, configs } from './constants';
+import { RecordRepository } from './database';
+import { Message, PostResponse, Record } from './model';
+import { removeSpecialCharacters } from './utils';
 
-export const RecordRepository = sequelize.define('Record', {
-    id: { type: DataTypes.NUMBER, primaryKey: true },
-    category: DataTypes.STRING,
-    ticker: DataTypes.STRING,
-    date: DataTypes.DATE,
-});
+const { STOCKWITS_API } = configs
 
 export const triggerPostsFetch = async () => {
     const postResponse: PostResponse = await fetchPosts()
-    await processPostsReponse(postResponse)
+    return await processPostsReponse(postResponse)
 }
 
 export const fetchPosts = async () => {
-    const response = await axios.get(url)
+    const response = await axios.get(STOCKWITS_API)
     return response.data
 }
 
-
 export const processPostsReponse = async (postResponse: PostResponse) => {
-    return await Promise.all(postResponse.messages.map(async (msg) => {
+    const promises = postResponse.messages.map(async (msg) => {
         const rule = findRule(msg.body)
         if (rule) {
             console.log(`Persisting Alex post: '${msg.body}' at ${msg.created_at} (${msg.likes.total} likes)'`)
             const record = mapToEntity(msg, rule)
             return await RecordRepository.create(record)
         }
-    }))
+    })
+    const result = await Promise.all(promises)
+    return result.filter(r => r)
 }
 
 export const findRule = (body: string) => {
     return rules.find(rule => removeSpecialCharacters(body).includes(rule))
 }
 
-export const mapToEntity = (message: Message, rule: string) => {
+export const mapToEntity = (message: Message, rule: string): Record => {
     return {
-        id: message.id,
+        postId: message.id,
         category: rule,
         ticker: message.body,
-        date: message.created_at,
+        date: new Date(message.created_at),
     }
 }

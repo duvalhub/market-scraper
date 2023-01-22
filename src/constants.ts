@@ -1,4 +1,9 @@
-export const removeSpecialCharacters = (s: string) => s.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, '')
+import { removeSpecialCharacters } from "./utils"
+export const configs = {
+    STOCKWITS_API: "https://api.stocktwits.com/api/2/streams/user/alejos11.json?filter=all&limit=21"
+}
+configs.STOCKWITS_API = "http://localhost:3000"
+
 export const rules = (() => {
     return [
         "Long-Term",

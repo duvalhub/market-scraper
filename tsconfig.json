@@ -3,7 +3,7 @@
     "target": "es2017", /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     "module": "ESNext", /* Specify what module code is generated. */
     "moduleResolution": "node",
-    // "outDir": "./out", /* Specify an output folder for all emitted files. */
-    // "sourceMap": true, /* Create source map files for emitted JavaScript files. */
+    "outDir": "./out", /* Specify an output folder for all emitted files. */
+    "sourceMap": true, /* Create source map files for emitted JavaScript files. */
   }
 }

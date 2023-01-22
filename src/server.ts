@@ -1,12 +1,22 @@
 import express from 'express'
-import { RecordRepository } from './posts'
+import { RecordRepository } from './database'
 const app = express()
 const port = process.env.PORT || 8080
 
-
 app.get('/', async (req, res, next) => {
-    const records = await RecordRepository.findAll()
-    res.json(records)
+    try {
+        const records = await RecordRepository.findAll()
+        res.json(records)
+    } catch (err) {
+        next(err)
+    }
+})
+
+app.use((err, req, res, next) => {
+    console.error(err)
+    res.json({
+        error: err
+    })
 })
 
 export const launchServer = () => {

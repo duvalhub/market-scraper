@@ -1,7 +1,5 @@
-// const mockResponse = require('./response.json') 
 import * as fs from 'fs';
-
-import { PostResponse } from '../src/model';
+import { PostResponse, Record } from '../src/model';
 
 describe('Posts', () => {
     let mockResponse: PostResponse;
@@ -12,10 +10,15 @@ describe('Posts', () => {
 
 
     it("persists all message of Response that match a rule", async () => {
-        const { processPostsReponse, sequelize, RecordRepository } = await import('../src/posts');
+        const { processPostsReponse, RecordRepository } = await import('../src/posts');
+        const { sequelize } = await import('../src/database');
 
         // Arrange
-        await sequelize.sync()
+        try {
+            await sequelize.sync({ force: true })
+        } catch (e) {
+            console.error(e)
+        }
 
         // Act
         const result = await processPostsReponse(mockResponse)
@@ -26,18 +29,51 @@ describe('Posts', () => {
     })
 
     it("persists messages if not already persisted", async () => {
-        const { processPostsReponse, sequelize, RecordRepository } = await import('../src/posts');
+        const { processPostsReponse, RecordRepository } = await import('../src/posts');
+        const { sequelize } = await import('../src/database');
 
         // Arrange
+        const toBePersisted: Array<Record> = [
+            {
+                postId: 1,
+                category: "is it",
+                date: new Date("1970-01-01"),
+                ticker: "GLO"
+            },
+            {
+                postId: 2,
+                category: "at it",
+                date: new Date("1970-02-01"),
+                ticker: "GLE"
+            },
+            {
+                postId: 3,
+                category: "at it",
+                date: new Date("1970-02-01"),
+                ticker: "GLE"
+            },
+            {
+                postId: 3,
+                category: "at it",
+                date: new Date("1970-02-01"),
+                ticker: "GLE"
+            }
+        ]
         await sequelize.sync()
 
         // Act
-        const persisted2 = await RecordRepository.findAll()
-        const result = await processPostsReponse(mockResponse)
+        const result = await Promise.all(toBePersisted.map(async (entity) => {
+            try {
+                return await RecordRepository.create(entity)
+            } catch (err) {
+
+            }
+
+        }))
 
         // Assert
         const persisted = await RecordRepository.findAll()
-        expect(persisted.length).toEqual(2);
+        expect(persisted.length).toEqual(3);
     })
 
 })

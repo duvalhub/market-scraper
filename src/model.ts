@@ -1,3 +1,5 @@
+import { CreationOptional } from "sequelize"
+
 export type PostResponse = {
     messages: Array<Message>
 }
@@ -13,8 +15,8 @@ export type Likes = {
     total: number
 }
 
-export type Record = {
-    id: number,
+export interface Record {
+    id?: CreationOptional<number>,
     postId: number,
     category: string,
     ticker: string,

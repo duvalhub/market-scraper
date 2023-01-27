@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { rules, configs } from './constants';
-import { RecordRepository } from './database';
-import { Message, PostResponse, Record } from './model';
-import { removeSpecialCharacters } from './utils';
+import { configs, rules } from './constants.js';
+import { RecordRepository } from './database.js';
+import { Message, PostResponse, Record } from './model.js';
+import { removeSpecialCharacters } from './utils.js';
 
 const { STOCKWITS_API } = configs
 

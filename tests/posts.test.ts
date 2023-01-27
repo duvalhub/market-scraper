@@ -10,8 +10,8 @@ describe('Posts', () => {
 
 
     it("persists all message of Response that match a rule", async () => {
-        const { processPostsReponse, RecordRepository } = await import('../src/posts');
-        const { sequelize } = await import('../src/database');
+        const { processPostsReponse } = await import('../src/posts');
+        const { sequelize, RecordRepository } = await import('../src/database');
 
         // Arrange
         try {
@@ -29,8 +29,8 @@ describe('Posts', () => {
     })
 
     it("persists messages if not already persisted", async () => {
-        const { processPostsReponse, RecordRepository } = await import('../src/posts');
-        const { sequelize } = await import('../src/database');
+        const { processPostsReponse } = await import('../src/posts');
+        const { sequelize, RecordRepository } = await import('../src/database');
 
         // Arrange
         const toBePersisted: Array<Record> = [

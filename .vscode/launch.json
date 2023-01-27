@@ -10,9 +10,19 @@
             "name": "Launch Program",
             "program": "${workspaceFolder}/src/main.ts",
             "preLaunchTask": "tsc: build - tsconfig.json",
-            "outFiles": ["${workspaceFolder}/out/**/*.js"]
+            "outFiles": [
+                "${workspaceFolder}/out/**/*.js"
+            ]
         },
-    
+        {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "Launch Program iother way",
+            "command": "ts-node -- ${workspaceFolder}/src/main",
+            "outFiles": [
+                "${workspaceFolder}/out/**/*.js"
+            ]
+        },
         {
             "name": "Debug Jest Tests",
             "type": "node",

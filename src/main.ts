@@ -1,8 +1,12 @@
+// import config from './config.cjs';
+import { config } from 'dotenv';
+import { triggerPostsFetch } from './posts.js';
+import { launchServer } from './server.js';
+config()
 
-import { triggerPostsFetch } from './posts';
-import { launchServer } from './server';
+console.log(`Lauching app`);
 
-console.log('Lauching app');
+// console.log("", config);
 
 (async () => {
     await launchServer()
@@ -10,6 +14,6 @@ console.log('Lauching app');
         const result = await triggerPostsFetch()
         console.log(`We have persisted ${result.length} events`)
     } catch (err) {
-        console.log(`Error loading data` )
+        console.log(`Error loading data`)
     }
 })()

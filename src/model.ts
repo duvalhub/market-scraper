@@ -22,3 +22,8 @@ export interface Record {
     ticker: string,
     date: Date
 }
+
+export interface MarketDataRequest {
+    ticker: string
+
+}

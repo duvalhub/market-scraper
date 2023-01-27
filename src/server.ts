@@ -1,5 +1,5 @@
 import express from 'express'
-import { RecordRepository } from './database'
+import { RecordRepository } from './database.js'
 const app = express()
 const port = process.env.PORT || 8080
 

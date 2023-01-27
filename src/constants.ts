@@ -1,4 +1,4 @@
-import { removeSpecialCharacters } from "./utils"
+import { removeSpecialCharacters } from "./utils.js"
 export const configs = {
     STOCKWITS_API: "https://api.stocktwits.com/api/2/streams/user/alejos11.json?filter=all&limit=21"
 }

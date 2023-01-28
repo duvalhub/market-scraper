@@ -8,7 +8,12 @@ export type Message = {
     id: number
     body: string
     created_at: string
-    likes: Likes
+    likes: Likes,
+    symbols?: Array<Symbol>
+}
+
+export type Symbol = {
+    symbol: string
 }
 
 export type Likes = {
@@ -20,6 +25,7 @@ export interface Record {
     postId: number,
     category: string,
     ticker: string,
+    message: string,
     date: Date
 }
 

@@ -24,21 +24,23 @@ export const processPostsReponse = async (postResponse: PostResponse) => {
             console.log(`Persisting Alex post: '${msg.body}' at ${msg.created_at} (${msg.likes.total} likes)'`)
             const record = mapToEntity(msg, rule)
             return await RecordRepository.create(record)
+        } else {
+            console.log("Found no match for: ", msg.body)
         }
     })
     const result = await Promise.all(promises)
     return result.filter(r => r)
 }
 
-export const findRule = (body: string) => {
-    return rules.find(rule => removeSpecialCharacters(body).includes(rule))
-}
+export const findRule = (body: string) => rules.find(rule => removeSpecialCharacters(body).includes(rule))
 
 export const mapToEntity = (message: Message, rule: string): Record => {
+    const ticker = message.symbols?.[0]?.symbol
     return {
         postId: message.id,
         category: rule,
-        ticker: message.body,
+        ticker: ticker,
+        message: message.body,
         date: new Date(message.created_at),
     }
 }

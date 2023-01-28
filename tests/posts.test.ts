@@ -38,25 +38,29 @@ describe('Posts', () => {
                 postId: 1,
                 category: "is it",
                 date: new Date("1970-01-01"),
-                ticker: "GLO"
+                ticker: "GLO",
+                message: "$GLO as"
             },
             {
                 postId: 2,
                 category: "at it",
                 date: new Date("1970-02-01"),
-                ticker: "GLE"
+                ticker: "GLE",
+                message: "$GLE some"
             },
             {
                 postId: 3,
                 category: "at it",
                 date: new Date("1970-02-01"),
-                ticker: "GLE"
+                ticker: "GLE",
+                message: "$GLE qwe"
             },
             {
                 postId: 3,
                 category: "at it",
                 date: new Date("1970-02-01"),
-                ticker: "GLE"
+                ticker: "GLE",
+                message: "$GLE qwe"
             }
         ]
         await sequelize.sync()

@@ -1,7 +1,7 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from "sequelize";
 import { Record } from './model';
 
-let sequelize
+let sequelize: Sequelize
 if (process.env.NODE_ENV == 'production') {
     const {
         MYSQL_HOST,
@@ -23,7 +23,7 @@ if (process.env.NODE_ENV == 'production') {
     sequelize = new Sequelize('sqlite::memory:');
 }
 
-export { sequelize }
+export { sequelize };
 
 export interface RecordModel extends Record, Model<InferAttributes<RecordModel>, InferCreationAttributes<RecordModel>> { }
 

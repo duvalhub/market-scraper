@@ -29,7 +29,7 @@ export interface RecordModel extends Record, Model<InferAttributes<RecordModel>,
 
 export const RecordRepository = sequelize.define<RecordModel>('Record', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    postId: { type: DataTypes.NUMBER, allowNull: false, unique: true },
+    postId: { type: DataTypes.INTEGER, allowNull: false, unique: true },
     category: { type: DataTypes.STRING, allowNull: true },
     message: { type: DataTypes.STRING, allowNull: false },
     ticker: { type: DataTypes.STRING, allowNull: false },

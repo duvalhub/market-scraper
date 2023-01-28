@@ -6,6 +6,8 @@
   "main": "index.js",
   "scripts": {
     "mock": "node mock-server/server.mjs",
+    "build": "tsc",
+    "start": "node src/main.js",
     "test": "jest"
   },
   "keywords": [],

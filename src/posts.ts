@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { configs, rules } from './constants.js';
+import { configs, rules } from './config.js';
 import { RecordRepository } from './database.js';
 import { Message, PostResponse, Record } from './model.js';
 import { removeSpecialCharacters } from './utils.js';

@@ -1,4 +1,8 @@
+import { config } from 'dotenv'
 import { removeSpecialCharacters } from "./utils.js"
+
+config()
+
 export const configs = {
     STOCKWITS_API: "https://api.stocktwits.com/api/2/streams/user/alejos11.json?filter=all&limit=21"
 }

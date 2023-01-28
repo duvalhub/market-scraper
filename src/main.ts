@@ -11,6 +11,7 @@ console.log(`Lauching app`);
 await launchServer()
 console.log("Trigger cron with: ", configs.LOAD_POSTS_CRON)
 schedule.scheduleJob(configs.LOAD_POSTS_CRON, () => {
+    console.log("Cron launched");
     (async () => {
         try {
             const result = await triggerPostsFetch()

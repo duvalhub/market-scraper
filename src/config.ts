@@ -4,9 +4,13 @@ import { removeSpecialCharacters } from "./utils.js"
 config()
 
 export const configs = {
-    STOCKWITS_API: "https://api.stocktwits.com/api/2/streams/user/alejos11.json?filter=all&limit=21"
+    STOCKWITS_API: "https://api.stocktwits.com",
+    LOAD_POSTS_CRON: "* */5 * * * *"
 }
-configs.STOCKWITS_API = "http://localhost:3000"
+if (process.env.NODE_ENV != "production") {
+    configs.STOCKWITS_API = "http://localhost:3000/stockwits"
+    configs.LOAD_POSTS_CRON = "*/5 * * * * *"
+}
 
 export const rules = (() => {
     return [

@@ -9,7 +9,8 @@ config()
 console.log(`Lauching app`);
 
 await launchServer()
-const job = schedule.scheduleJob(configs.LOAD_POSTS_CRON, async () => {
+console.log("Trigger cron with: ", configs.LOAD_POSTS_CRON)
+schedule.scheduleJob(configs.LOAD_POSTS_CRON, async () => {
     try {
         const result = await triggerPostsFetch()
         console.log(`We have persisted ${result.length} events`)
@@ -17,5 +18,3 @@ const job = schedule.scheduleJob(configs.LOAD_POSTS_CRON, async () => {
         console.error(`Error loading data`, err)
     }
 });
-
-console.dir(job)

@@ -12,6 +12,7 @@ export const triggerPostsFetch = async () => {
 }
 
 export const fetchPosts = async () => {
+    console.log("Fetching post from: ", STOCKWITS_API)
     const response = await axios.get(`${STOCKWITS_API}/api/2/streams/user/alejos11.json?filter=all&limit=21`)
     return response.data
 }

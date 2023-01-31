@@ -1,5 +1,5 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from "sequelize";
-import { Record } from './model';
+import { Record } from './model.js';
 
 let sequelize: Sequelize
 if (process.env.NODE_ENV == 'production') {

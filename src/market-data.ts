@@ -1,3 +1,7 @@
+// NOTES: Questrade provides an API which could be use to retrieve market data at request time
+// https://www.questrade.com/api/documentation/rest-operations/market-calls/markets-quotes-id
+
+
 // // import { MarketDataRequest } from "./model";
 // // import * as fs from 'fs'
 // const fs = require('fs')

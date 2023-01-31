@@ -1,4 +1,6 @@
 import axios from 'axios';
+// Maybe preset: ts-jest would help
+// See: https://github.com/ContentSquare/readapt/blob/master/packages/visual-engine/jest.config.js
 import { configs, rules } from './config.js';
 import { RecordRepository } from './database.js';
 import { Message, PostResponse, Record } from './model.js';

@@ -3,6 +3,9 @@ import { RecordRepository } from './database.js'
 const app = express()
 const port = process.env.PORT || 8080
 
+// TODO: Implement swagger implementation to modify rules
+// Check https://www.npmjs.com/package/swagger-ui-express
+
 app.get('/', async (req, res, next) => {
     try {
         const records = await RecordRepository.findAll()

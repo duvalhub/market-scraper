@@ -12,7 +12,7 @@ let queries = {
 
 Request details of a post with prices for stock in post: 
 ```js
-let url = new URL(`https://api.stocktwits.com/api/2/messages/509236287/conversation.json?limit=21`)
+let url = new URL(`https://api.stocktwits.com/api/2/messages/${MESSAGE_ID}/conversation.json?limit=21`)
 ```
 
 Received message "$RBOT chart looks good"

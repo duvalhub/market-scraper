@@ -1,15 +1,12 @@
-// import config from './config.cjs';
-import { config } from 'dotenv';
 import schedule from 'node-schedule';
 import { configs } from './config.js';
 import { evaluateAllPlays } from './play.js';
 import { triggerPostsFetch } from './posts.js';
 import { launchServer } from './server.js';
-config()
 
 console.log(`Lauching app`);
-
 await launchServer()
+
 console.log("Load new Posts cron set to ", configs.LOAD_POSTS_CRON)
 schedule.scheduleJob(configs.LOAD_POSTS_CRON, () => {
     console.log("Pooling new posts...");

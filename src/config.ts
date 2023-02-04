@@ -1,17 +1,14 @@
 import { config } from 'dotenv'
 import { removeSpecialCharacters } from "./utils.js"
-
 config()
 
 export const configs = {
-    STOCKWITS_API: "https://api.stocktwits.com",
+    ALPHA_VANTAGE_API_KEY: process.env.ALPHA_VANTAGE_API_KEY,
+    ALPHA_VANTAGE_URL: process.env.ALPHA_VANTAGE_URL,
+    STOCKWITS_API: process.env.STOCKWITS_API,
     LOAD_POSTS_CRON: "0 */5 * * * *",
     EVALUATE_PLAYS_CRON: "0 0 */5 * * *",
-    PLAY_EXPIRED: 24
-}
-if (process.env.NODE_ENV != "production") {
-    configs.STOCKWITS_API = "http://localhost:3000/stockwits"
-    configs.LOAD_POSTS_CRON = "*/5 * * * * *"
+    PLAY_EXPIRED_HOURS: process.env.PLAY_EXPIRED_HOURS
 }
 
 export const rules = (() => {

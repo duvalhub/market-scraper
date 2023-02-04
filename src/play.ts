@@ -3,19 +3,15 @@
 
 import axios from 'axios';
 import { parse } from 'csv-parse';
-import { config } from 'dotenv';
 import Stream from 'stream';
 import { configs } from './config.js';
 import { Play, PlayEvaluation, TypeQuality } from "./model.js";
 import { getUnfinishedPlays } from './posts.js';
-config()
 
-const apikey = process.env.ALPHA_VANTAGE_API_KEY
-const apiUrl = process.env.ALPHA_VANTAGE_URL
-const { PLAY_EXPIRED } = configs
+const { PLAY_EXPIRED_HOURS, ALPHA_VANTAGE_API_KEY, ALPHA_VANTAGE_URL } = configs
 const MS_PER_DAY = 1000 * 60 * 60 * 24
 const EXIT_PERCENT = 1 - 0.2
-const PLAY_EXPIRED_MS = PLAY_EXPIRED * 60 * 60 * 1000 // H * M/H * S/M * MS/S
+const PLAY_EXPIRED_MS = PLAY_EXPIRED_HOURS * 60 * 60 * 1000 // H * M/H * S/M * MS/S
 const ALPHA_VANTAGE_API_LIMIT = 60 * 1000 // AV limit is 5 call per minute
 
 export const evaluateAllPlays = async () => {
@@ -55,12 +51,12 @@ export const evaluatePlay = async (play: Play): Promise<PlayEvaluation> => {
         price
     } = play
     try {
-        const response = await axios.get(apiUrl, {
+        const response = await axios.get(ALPHA_VANTAGE_URL, {
             params: {
                 function: "TIME_SERIES_INTRADAY",
                 symbol: ticker,
                 interval: "5min",
-                apikey,
+                apikey: ALPHA_VANTAGE_API_KEY,
                 datatype: "csv",
                 outputsize: outputSize(date),
                 adjusted: false

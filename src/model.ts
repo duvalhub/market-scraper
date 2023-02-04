@@ -23,13 +23,38 @@ export type Likes = {
 export interface Record {
     id?: CreationOptional<number>,
     postId: number,
-    category: string,
-    ticker: string,
     message: string,
-    date: Date
+    ticker: string,
+    category: string,
+    price: number,
+    date: Date,
+    isClosed: boolean,
+    quality?: TypeQuality,
+    bestPrice?: number,
+    bestPricePercent?: number,
+    bestDate?: Date
 }
 
-export interface MarketDataRequest {
+export interface Play {
     ticker: string
+    date: Date
+    price: number
+}
 
+export interface PlayEvaluation {
+    quality: TypeQuality,
+    date: Date
+    price: number
+    percentChange?: number
+    row: Array<string>
+}
+
+export enum TypeQuality {
+    F,
+    A,
+    AA,
+    AAA,
+    AAAA,
+    AAAAA,
+    AAAAAA,
 }

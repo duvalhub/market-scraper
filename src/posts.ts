@@ -44,5 +44,15 @@ export const mapToEntity = (message: Message, rule: string): Record => {
         ticker: ticker,
         message: message.body,
         date: new Date(message.created_at),
+        price: 0,
+        isClosed: false
     }
+}
+
+export const getUnfinishedPlays = async () => {
+    return await RecordRepository.findAll({
+        where: {
+            isClosed: false
+        }
+    })
 }

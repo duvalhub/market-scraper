@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from "sequelize";
 import { Record } from './model.js';
 
@@ -9,9 +10,22 @@ if (process.env.NODE_ENV == 'production') {
         MYSQL_USER,
         MYSQL_PASSWORD
     } = process.env
-    sequelize = new Sequelize(MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD, {
+    const serverCert = [fs.readFileSync("./tmp/ca.crt", "utf8")];
+    sequelize = new Sequelize({
+        ssl: true,
+        port: 3306,
+        database: MYSQL_DATABASE,
         host: MYSQL_HOST,
-        dialect: 'mariadb'
+        username: MYSQL_USER,
+        password: MYSQL_PASSWORD,
+        dialect: 'mariadb',
+        dialectOptions: {
+            ssl: {
+                // rejectUnauthorized: false
+                ca: serverCert
+            }
+        }
+
     });
     try {
         await sequelize.authenticate();
@@ -33,7 +47,13 @@ export const RecordRepository = sequelize.define<RecordModel>('Record', {
     category: { type: DataTypes.STRING, allowNull: true },
     message: { type: DataTypes.STRING, allowNull: false },
     ticker: { type: DataTypes.STRING, allowNull: false },
-    date: { type: DataTypes.DATE, allowNull: false }
+    price: { type: DataTypes.DOUBLE, allowNull: true },
+    date: { type: DataTypes.DATE, allowNull: false },
+    isClosed: { type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false },
+    quality: { type: DataTypes.INTEGER, allowNull: true },
+    bestPrice: { type: DataTypes.DOUBLE, allowNull: true },
+    bestPricePercent: { type: DataTypes.DOUBLE, allowNull: true },
+    bestDate: { type: DataTypes.DATE, allowNull: true }
 });
 
-await sequelize.sync()
+await sequelize.sync({ force: false })

@@ -11,6 +11,14 @@ app.get('/stockwits/**', (req, res) => {
     }
 })
 
+app.get('/alphavantage/intraday-compact', (req, res) => {
+    try {
+        fs.createReadStream("./mock-server/alphavantage/intraday-compact.csv").pipe(res);
+    } catch (err) {
+        console.err(err)
+    }
+})
+
 app.get('/alphavantage/**', (req, res) => {
     try {
         fs.createReadStream("./mock-server/alpha-vantage.csv").pipe(res);

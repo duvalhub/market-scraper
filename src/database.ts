@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from "sequelize";
+import { DataTypes, InferAttributes, InferCreationAttributes, Model, Options, Sequelize } from "sequelize";
 import { Record } from './model.js';
 
 let sequelize: Sequelize
@@ -8,10 +8,10 @@ if (process.env.NODE_ENV == 'production') {
         MYSQL_HOST,
         MYSQL_DATABASE,
         MYSQL_USER,
-        MYSQL_PASSWORD
+        MYSQL_PASSWORD,
+        MYSQL_SSL
     } = process.env
-    const serverCert = [fs.readFileSync("./tmp/ca.crt", "utf8")];
-    sequelize = new Sequelize({
+    let options: Options = {
         ssl: true,
         port: 3306,
         database: MYSQL_DATABASE,
@@ -19,14 +19,19 @@ if (process.env.NODE_ENV == 'production') {
         username: MYSQL_USER,
         password: MYSQL_PASSWORD,
         dialect: 'mariadb',
-        dialectOptions: {
-            ssl: {
-                // rejectUnauthorized: false
-                ca: serverCert
+    }
+    if (MYSQL_SSL) {
+        const serverCert = [fs.readFileSync("./tmp/ca.crt", "utf8")];
+        options = {
+            ...options,
+            dialectOptions: {
+                ssl: {
+                    ca: serverCert
+                }
             }
         }
-
-    });
+    }
+    sequelize = new Sequelize(options);
     try {
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
@@ -56,4 +61,4 @@ export const RecordRepository = sequelize.define<RecordModel>('Record', {
     bestDate: { type: DataTypes.DATE, allowNull: true }
 });
 
-await sequelize.sync({ force: false })
+await sequelize.sync()

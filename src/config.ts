@@ -11,6 +11,18 @@ export const configs = {
     PLAY_EXPIRED_HOURS: process.env.PLAY_EXPIRED_HOURS
 }
 
+// Check if any configuration is null
+if (Object.keys(configs).some(k => {
+    const value = configs[k]
+    const invalid = !value
+    if (invalid) {
+        console.error("Missing configuration ", k)
+    }
+    return invalid
+})) {
+    throw new Error("Invalid configuration.")
+}
+
 export const rules = (() => {
     return [
         "Long-Term",

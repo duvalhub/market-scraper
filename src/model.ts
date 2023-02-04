@@ -46,6 +46,7 @@ export interface PlayEvaluation {
     date: Date
     price: number
     percentChange?: number
+    isClosed: boolean
     row: Array<string>
 }
 

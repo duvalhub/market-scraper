@@ -8,6 +8,13 @@ import { removeSpecialCharacters } from './utils.js';
 
 const { STOCKWITS_API } = configs
 
+export const getUnfinishedPlays = async () => {
+    return await RecordRepository.findAll({
+        where: {
+            isClosed: false
+        }
+    })
+}
 export const triggerPostsFetch = async () => {
     const postResponse: PostResponse = await fetchPosts()
     return await processPostsReponse(postResponse)
@@ -23,9 +30,17 @@ export const processPostsReponse = async (postResponse: PostResponse) => {
     const promises = postResponse.messages.map(async (msg) => {
         const rule = findRule(msg.body)
         if (rule) {
-            console.log(`Persisting Alex post: '${msg.body}' at ${msg.created_at} (${msg.likes.total} likes)'`)
-            const record = mapToEntity(msg, rule)
-            return await RecordRepository.create(record)
+            const isRecordExist = await RecordRepository.findOne({
+                where: {
+                    postId: msg.id
+                }
+            })
+            if (!isRecordExist) {
+                console.log(`Persisting new post '${msg.body}' at ${msg.created_at}...`)
+                const price = await findMessagePrice(msg)
+                const record = mapToEntity(msg, rule, price)
+                return await RecordRepository.create(record)
+            }
         } else {
             console.log("Found no match for: ", msg.body)
         }
@@ -36,7 +51,7 @@ export const processPostsReponse = async (postResponse: PostResponse) => {
 
 export const findRule = (body: string) => rules.find(rule => removeSpecialCharacters(body).includes(rule))
 
-export const mapToEntity = (message: Message, rule: string): Record => {
+export const mapToEntity = (message: Message, rule: string, price: number): Record => {
     const ticker = message.symbols?.[0]?.symbol
     return {
         postId: message.id,
@@ -44,15 +59,29 @@ export const mapToEntity = (message: Message, rule: string): Record => {
         ticker: ticker,
         message: message.body,
         date: new Date(message.created_at),
-        price: 0,
+        price: price,
         isClosed: false
     }
 }
 
-export const getUnfinishedPlays = async () => {
-    return await RecordRepository.findAll({
-        where: {
-            isClosed: false
-        }
-    })
+async function findMessagePrice(message) {
+    const id = message.id
+    let url = new URL(`${STOCKWITS_API}/api/2/messages/${id}/conversation.json`)
+    return await fetch(url)
+        .then(function (response) {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response.json();
+        })
+        .then(res => {
+            const prices = res.message.prices
+            if (prices) {
+                const price = prices[0]?.price
+                if (price) {
+                    return Number(price)
+                }
+            }
+            return null
+        })
 }

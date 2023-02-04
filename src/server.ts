@@ -1,6 +1,7 @@
 import express from 'express'
 import { RecordRepository } from './database.js'
-import { evaluateAllPlays } from './market-data.js'
+import { evaluateAllPlays } from './play.js'
+import { triggerPostsFetch } from './posts.js'
 const app = express()
 const port = process.env.PORT || 8080
 
@@ -11,6 +12,17 @@ app.get('/', async (req, res, next) => {
     try {
         const records = await RecordRepository.findAll()
         res.json(records)
+    } catch (err) {
+        next(err)
+    }
+})
+
+app.post('/load', async (req, res, next) => {
+    try {
+        triggerPostsFetch().catch(console.error)
+        res.json({
+            message: "Plays are evaluating"
+        })
     } catch (err) {
         next(err)
     }

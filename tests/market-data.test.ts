@@ -1,4 +1,4 @@
-import { evaluatePlay } from '../src/market-data.js'
+import { evaluatePlay } from '../src/play.js'
 
 describe('Market Data', () => {
     test('find play quality', async () => {

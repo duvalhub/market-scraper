@@ -6,7 +6,8 @@ config()
 export const configs = {
     STOCKWITS_API: "https://api.stocktwits.com",
     LOAD_POSTS_CRON: "0 */5 * * * *",
-    EVALUATE_PLAYS_CRON: "0 0 */5 * * *"
+    EVALUATE_PLAYS_CRON: "0 0 */5 * * *",
+    PLAY_EXPIRED: 24
 }
 if (process.env.NODE_ENV != "production") {
     configs.STOCKWITS_API = "http://localhost:3000/stockwits"

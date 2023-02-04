@@ -8,11 +8,11 @@ import { configs } from './config.js';
 import { Play, PlayEvaluation, TypeQuality } from "./model.js";
 import { getUnfinishedPlays } from './posts.js';
 
-const { PLAY_EXPIRED_HOURS, ALPHA_VANTAGE_API_KEY, ALPHA_VANTAGE_URL } = configs
+const { PLAY_EXPIRED_HOURS, ALPHA_VANTAGE_API_KEY, ALPHA_VANTAGE_URL, STOP_LOSS_PERCENT } = configs
 const MS_PER_DAY = 1000 * 60 * 60 * 24
-const EXIT_PERCENT = 1 - 0.2
+const EXIT_PERCENT = 1 - STOP_LOSS_PERCENT
 const PLAY_EXPIRED_MS = PLAY_EXPIRED_HOURS * 60 * 60 * 1000 // H * M/H * S/M * MS/S
-const ALPHA_VANTAGE_API_LIMIT = 60 * 1000 // AV limit is 5 call per minute
+const ALPHA_VANTAGE_API_RESET = 60 * 1000 // AV limit is 5 call per minute
 
 export const evaluateAllPlays = async () => {
     const playsToFinish = await getUnfinishedPlays()
@@ -36,8 +36,8 @@ export const evaluateAllPlays = async () => {
         }))
         if (playsToFinish.length) {
             await new Promise(res => {
-                console.log(`Waiting ${ALPHA_VANTAGE_API_LIMIT}ms to release call limit...`)
-                setTimeout(res, ALPHA_VANTAGE_API_LIMIT)
+                console.log(`Waiting ${ALPHA_VANTAGE_API_RESET}ms to release call limit...`)
+                setTimeout(res, ALPHA_VANTAGE_API_RESET)
             })
         }
     }

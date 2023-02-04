@@ -8,7 +8,8 @@ export const configs = {
     STOCKWITS_API: process.env.STOCKWITS_API,
     LOAD_POSTS_CRON: "0 */5 * * * *",
     EVALUATE_PLAYS_CRON: "0 0 */5 * * *",
-    PLAY_EXPIRED_HOURS: process.env.PLAY_EXPIRED_HOURS
+    PLAY_EXPIRED_HOURS: Number(process.env.PLAY_EXPIRED_HOURS),
+    STOP_LOSS_PERCENT: 0.2
 }
 
 // Check if any configuration is null

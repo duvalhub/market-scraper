@@ -171,36 +171,9 @@ function isStopLoss(referencePrice: number, currentPrice: number): boolean {
     return currentPrice < referencePrice * EXIT_PERCENT
 }
 
-
 function isPlayExpired(play: Play): boolean {
     const now = new Date()
     const playDate = play.date
     const expireDate = new Date(playDate.valueOf() + PLAY_EXPIRED_MS)
     return now > expireDate
 }
-
-
-// const ticker = "RBOT"
-// const url = `https://www.alphavantage.co/query`
-// let params = {
-//   function: "TIME_SERIES_INTRADAY",
-//   symbol: ticker,
-//   interval: "60min",
-//   apikey: apikey,
-//   adjusted: true
-// }
-
-// params.function = "TIME_SERIES_INTRADAY_EXTENDED"
-// params.slice = "year2month6"
-
-// // params.alphaFunction = "TIME_SERIES_WEEKLY"
-
-// axios.get(url, { params }).then(response => {
-//   if (response.status === 200) {
-//     fs.writeFileSync(`${ticker}-${params.function}${params.slice ? `-${params.slice}` : ''}.json`, JSON.stringify(response.data))
-//   } else {
-//     console.error(response)
-//   }
-// })
-
-

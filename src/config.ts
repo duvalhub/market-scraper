@@ -10,7 +10,7 @@ export const configs = {
     EVALUATE_PLAYS_CRON: "0 0 */5 * * *",
     PLAY_EXPIRED_HOURS: Number(process.env.PLAY_EXPIRED_HOURS),
     STOP_LOSS_PERCENT: 0.2,
-    ENABLED_CRONS: process.env.ENABLED_CRONS || true
+    ENABLED_CRONS: process.env.ENABLED_CRONS === "false" ? false : true
 }
 
 // Check if any configuration is null

@@ -26,7 +26,7 @@ if (process.env.NODE_ENV == 'production') {
         if (MYSQL_SSL_VERIFY_IGNORE != "true") {
             const serverCert = [fs.readFileSync("./tmp/ca.crt", "utf8")];
             ssl = {
-                cat: serverCert
+                ca: serverCert
             }
         } else {
             ssl = { rejectUnauthorized: false }
@@ -59,7 +59,7 @@ export const RecordRepository = sequelize.define<RecordModel>('Record', {
     category: { type: DataTypes.STRING, allowNull: true },
     message: { type: DataTypes.STRING, allowNull: false },
     ticker: { type: DataTypes.STRING, allowNull: false },
-    price: { type: DataTypes.DOUBLE, allowNull: true },
+    price: { type: DataTypes.DOUBLE, allowNull: false },
     date: { type: DataTypes.DATE, allowNull: false },
     isClosed: { type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false },
     quality: { type: DataTypes.INTEGER, allowNull: true },

@@ -16,7 +16,7 @@ export const configs = {
 // Check if any configuration is null
 if (Object.keys(configs).some(k => {
     const value = configs[k]
-    const invalid = !value
+    const invalid = value === undefined || value === null
     if (invalid) {
         console.error("Missing configuration ", k)
     }

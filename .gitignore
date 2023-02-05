@@ -1,0 +1,9 @@
+node_modules
+logs
+coverage
+out
+dist
+.env*
+build
+tmp
+*.ods#

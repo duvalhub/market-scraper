@@ -9,7 +9,8 @@ if (process.env.NODE_ENV == 'production') {
         MYSQL_DATABASE,
         MYSQL_USER,
         MYSQL_PASSWORD,
-        MYSQL_SSL
+        MYSQL_SSL,
+        MYSQL_SSL_VERIFY_IGNORE
     } = process.env
     let options: Options = {
         ssl: true,
@@ -21,13 +22,19 @@ if (process.env.NODE_ENV == 'production') {
         dialect: 'mariadb',
     }
     if (MYSQL_SSL) {
-        const serverCert = [fs.readFileSync("./tmp/ca.crt", "utf8")];
+        let ssl
+        if (MYSQL_SSL_VERIFY_IGNORE != "true") {
+            const serverCert = [fs.readFileSync("./tmp/ca.crt", "utf8")];
+            ssl = {
+                cat: serverCert
+            }
+        } else {
+            ssl = { rejectUnauthorized: false }
+        }
         options = {
             ...options,
             dialectOptions: {
-                ssl: {
-                    ca: serverCert
-                }
+                ssl
             }
         }
     }

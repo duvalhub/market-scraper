@@ -21,7 +21,7 @@ if (configs.ENABLED_CRONS) {
         })()
     });
 
-    console.log("Process the plays cron set to ", configs.LOAD_POSTS_CRON)
+    console.log("Process the plays cron set to ", configs.EVALUATE_PLAYS_CRON)
     schedule.scheduleJob(configs.EVALUATE_PLAYS_CRON, () => {
         console.log("Processing the plays to define their quality...");
         (async () => {
